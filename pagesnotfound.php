@@ -35,7 +35,7 @@ class PagesNotFound extends Module
 	{
 		$this->name = 'pagesnotfound';
 		$this->tab = 'analytics_stats';
-		$this->version = 1.1;
+		$this->version = 1.2;
 		$this->author = 'PrestaShop';
 		$this->need_instance = 0;
 
@@ -43,6 +43,7 @@ class PagesNotFound extends Module
 
 		$this->displayName = $this->l('Pages not found');
 		$this->description = $this->l('Displays the pages requested by your visitors that have not been found.');
+		$this->ps_versions_compliancy = array('min' => '1.5.6.1', 'max' => _PS_VERSION_);
 	}
 
 	public function install()

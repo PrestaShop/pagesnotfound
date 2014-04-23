@@ -167,10 +167,10 @@ class PagesNotFound extends Module
 				<h4>'.$this->l('Empty database').'</h4>
 				<form action="'.Tools::htmlEntitiesUtf8($_SERVER['REQUEST_URI']).'" method="post">
 					<button type="submit" class="btn btn-default" name="submitDeletePNF">
-						<i class="icon-remove"></i> '.$this->l('Empty ALL pages not found for this period').'
+						<i class="icon-remove"></i> '.$this->l('Empty ALL "pages not found" notices for this period').'
 					</button>
 					<button type="submit" class="btn btn-default" name="submitTruncatePNF">
-						<i class="icon-remove"></i> '.$this->l('Empty ALL pages not found').'
+						<i class="icon-remove"></i> '.$this->l('Empty ALL "pages not found" notices').'
 					</button>
 				</form>';
 

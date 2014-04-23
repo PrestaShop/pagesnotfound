@@ -127,10 +127,8 @@ class PagesNotFound extends Module
 				<p>&nbsp;</p>
 				<h4>'.$this->l('How to catch these errors?').'</h4>
 				<p>'
-			.$this->l('If your webhost supports .htaccess files, you can create one in the root directory of PrestaShop and insert the following line inside:').'
-					<i>ErrorDocument 404 '.__PS_BASE_URI__.'404.php</i>. '.
-			$this->l('A user requesting a page which doesn\'t exist will be redirected to the following page.').' <i>'.__PS_BASE_URI__.'404.php</i>. '.
-			$this->l('This module logs access to this page.').'
+			.sprintf($this->l('If your webhost supports .htaccess files, you can create one in the root directory of PrestaShop and insert the following line inside: "%s".'), 'ErrorDocument 404 '.__PS_BASE_URI__.'404.php').'<br />'.
+			sprintf($this->l('A user requesting a page which doesn\'t exist will be redirected to the following page: %s. This module logs access to this page.'), __PS_BASE_URI__.'404.php').'
 				</p>
 			</div>';
 		if (!file_exists(dirname(__FILE__).'/../../.htaccess'))

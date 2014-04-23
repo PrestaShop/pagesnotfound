@@ -42,7 +42,7 @@ class PagesNotFound extends Module
 		parent::__construct();
 
 		$this->displayName = $this->l('Pages not found');
-		$this->description = $this->l('Displays the pages requested by your visitors that have not been found.');
+		$this->description = $this->l('Adds a tab to the Stats dashboard, showing the pages requested by your visitors that have not been found.');
 	}
 
 	public function install()
@@ -106,7 +106,7 @@ class PagesNotFound extends Module
 				'DELETE FROM `'._DB_PREFIX_.'pagenotfound`
 				WHERE date_add BETWEEN '.ModuleGraph::getDateBetween()
 			);
-			$this->html .= '<div class="alert alert-warning"> '.$this->l('Pages not found have been deleted.').'</div>';
+			$this->html .= '<div class="alert alert-warning"> '.$this->l('The "pages not found" cache has been deleted.').'</div>';
 		}
 
 		$this->html .= '
@@ -119,7 +119,7 @@ class PagesNotFound extends Module
 				<p>'
 			.$this->l(
 				'A 404 error is an HTTP error code which means that the file requested by the user cannot be found.
-				In your case it means that one of your visitors entered a wrong URL in the address bar,or that you or another website has a dead link.
+				In your case it means that one of your visitors entered a wrong URL in the address bar, or that you or another website has a dead link.
 				When possible, the referrer is shown so you can find the page/site which contains the dead link.
 				If not, it generally means that it is a direct access, so someone may have bookmarked a link which doesn\'t exist anymore.'
 			).'
@@ -134,7 +134,7 @@ class PagesNotFound extends Module
 				</p>
 			</div>';
 		if (!file_exists(dirname(__FILE__).'/../../.htaccess'))
-			$this->html .= '<div class="alert alert-warning">'.$this->l('You must use a .htaccess file to redirect 404 errors to the page "404.php"').'</div>';
+			$this->html .= '<div class="alert alert-warning">'.$this->l('You must use a .htaccess file to redirect 404 errors to the "404.php" page.').'</div>';
 
 		$pages = $this->getPages();
 		if (count($pages))
@@ -162,7 +162,7 @@ class PagesNotFound extends Module
 				</tbody>
 			</table>';
 		} else
-			$this->html .= '<div class="alert alert-warning"> '.$this->l('No pages registered').'</div>';
+			$this->html .= '<div class="alert alert-warning"> '.$this->l('No "page not found" issue registered for now.').'</div>';
 
 		if (count($pages))
 			$this->html .= '

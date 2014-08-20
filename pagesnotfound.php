@@ -35,7 +35,7 @@ class PagesNotFound extends Module
 	{
 		$this->name = 'pagesnotfound';
 		$this->tab = 'analytics_stats';
-		$this->version = '1.3.2';
+		$this->version = '1.3.3';
 		$this->author = 'PrestaShop';
 		$this->need_instance = 0;
 
@@ -117,12 +117,7 @@ class PagesNotFound extends Module
 			<div class="alert alert-warning">
 				<h4>'.$this->l('404 errors').'</h4>
 				<p>'
-			.$this->l(
-				'A 404 error is an HTTP error code which means that the file requested by the user cannot be found.
-				In your case it means that one of your visitors entered a wrong URL in the address bar, or that you or another website has a dead link.
-				When possible, the referrer is shown so you can find the page/site which contains the dead link.
-				If not, it generally means that it is a direct access, so someone may have bookmarked a link which doesn\'t exist anymore.'
-			).'
+			.$this->l('A 404 error is an HTTP error code which means that the file requested by the user cannot be found. In your case it means that one of your visitors entered a wrong URL in the address bar, or that you or another website has a dead link. When possible, the referrer is shown so you can find the page/site which contains the dead link. If not, it generally means that it is a direct access, so someone may have bookmarked a link which doesn\'t exist anymore.').'
 				</p>
 				<p>&nbsp;</p>
 				<h4>'.$this->l('How to catch these errors?').'</h4>

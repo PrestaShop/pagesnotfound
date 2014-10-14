@@ -35,7 +35,7 @@ class PagesNotFound extends Module
 	{
 		$this->name = 'pagesnotfound';
 		$this->tab = 'analytics_stats';
-		$this->version = '1.3.3';
+		$this->version = '1.3.4';
 		$this->author = 'PrestaShop';
 		$this->need_instance = 0;
 
@@ -126,7 +126,7 @@ class PagesNotFound extends Module
 			sprintf($this->l('A user requesting a page which doesn\'t exist will be redirected to the following page: %s. This module logs access to this page.'), __PS_BASE_URI__.'404.php').'
 				</p>
 			</div>';
-		if (!file_exists(dirname(__FILE__).'/../../.htaccess'))
+		if (!file_exists($this->_normalizeDirectory(_PS_ROOT_DIR_).'.htaccess'))
 			$this->html .= '<div class="alert alert-warning">'.$this->l('You must use a .htaccess file to redirect 404 errors to the "404.php" page.').'</div>';
 
 		$pages = $this->getPages();
@@ -192,6 +192,20 @@ class PagesNotFound extends Module
 				);
 			}
 		}
+	}
+
+	private function _normalizeDirectory($directory)
+	{
+		$last = $directory[strlen($directory) - 1];
+
+		if (in_array($last, array('/', '\\')))
+		{
+			$directory[strlen($directory) - 1] = DIRECTORY_SEPARATOR;
+			return $directory;
+		}
+
+		$directory .= DIRECTORY_SEPARATOR;
+		return $directory;
 	}
 }
 

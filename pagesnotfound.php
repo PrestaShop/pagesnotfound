@@ -47,7 +47,7 @@ class PagesNotFound extends Module
 
 	public function install()
 	{
-		if (!parent::install() || !$this->registerHook('top') || !$this->registerHook('AdminStatsModules'))
+		if (!parent::install() || !$this->registerHook('top') || !$this->registerHook('AdminStatsModules') || !$this->registerHook('actionPSCleanerGetModulesTables'))
 			return false;
 
 		return Db::getInstance()->execute(
@@ -92,6 +92,11 @@ class PagesNotFound extends Module
 		uasort($pages, 'pnfSort');
 
 		return $pages;
+	}
+	
+	public function hookActionPSCleanerGetModulesTables()
+	{
+		return array('pagenotfound');
 	}
 
 	public function hookAdminStatsModules()

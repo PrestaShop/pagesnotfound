@@ -1,6 +1,6 @@
 {
-  "name": "PrestaShop/modules/pagesnotfound",
-  "description": "Prestashop module pagesnotfound",
+  "name": "PrestaShop/pagesnotfound",
+  "description": "PrestaShop module pagesnotfound",
   "homepage": "https://github.com/PrestaShop/pagesnotfound",
   "license": "AFL - Academic Free License (AFL 3.0)",
   "authors": [
@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "php": ">=5.2"
+    "php": ">=5.3.2"
   },
   "config": {
     "preferred-install": "dist"

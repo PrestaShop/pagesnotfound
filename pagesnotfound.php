@@ -47,7 +47,12 @@ class PagesNotFound extends Module
 
 	public function install()
 	{
-		if (!parent::install() || !$this->registerHook('top') || !$this->registerHook('AdminStatsModules'))
+		if (defined(_PS_VERSION_) && version_compare(_PS_VERSION_, '1.5.0.1', '>=')) {
+			$hookName = 'displayTop';
+		} else {
+			$hookName = 'top';
+		}
+		if (!parent::install() || !$this->registerHook($hookName) || !$this->registerHook('AdminStatsModules'))
 			return false;
 
 		return Db::getInstance()->execute(

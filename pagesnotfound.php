@@ -43,6 +43,7 @@ class PagesNotFound extends Module
 
 		$this->displayName = $this->trans('Pages not found', array(), 'Modules.Pagesnotfound.Admin');
 		$this->description = $this->trans('Adds a tab to the Stats dashboard, showing the pages requested by your visitors that have not been found.', array(), 'Modules.Pagesnotfound.Admin');
+		$this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
 	}
 
 	public function install()

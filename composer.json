@@ -2,7 +2,7 @@
   "name": "prestashop/pagesnotfound",
   "description": "PrestaShop module pagesnotfound",
   "homepage": "https://github.com/PrestaShop/pagesnotfound",
-  "license": "AFL - Academic Free License (AFL 3.0)",
+  "license": "AFL-3.0",
   "authors": [
     {
       "name": "PrestaShop SA",

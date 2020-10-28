@@ -2,7 +2,7 @@
 
 ## About
 
-Adds a tab to the Stats dashboard, showing the pages requested by your visitors that have not been found.
+Enrich your stats, display the pages requested by your visitors that could not be found.
 
 ## Reporting issues
 

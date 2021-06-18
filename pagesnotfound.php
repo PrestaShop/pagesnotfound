@@ -48,7 +48,7 @@ class PagesNotFound extends Module
 
 	public function install()
 	{
-		if (defined(_PS_VERSION_) && version_compare(_PS_VERSION_, '1.5.0.1', '>=')) {
+		if (defined('_PS_VERSION_') && version_compare(_PS_VERSION_, '1.5.0.1', '>=')) {
 			$hookName = 'displayTop';
 		} else {
 			$hookName = 'top';

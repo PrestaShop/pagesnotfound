@@ -48,13 +48,12 @@ class PagesNotFound extends Module
 
 	public function install()
 	{
-		if (defined('_PS_VERSION_') && version_compare(_PS_VERSION_, '1.5.0.1', '>=')) {
-			$hookName = 'displayTop';
-		} else {
-			$hookName = 'top';
-		}
-		if (!parent::install() || !$this->registerHook($hookName) || !$this->registerHook('AdminStatsModules'))
+		if (!parent::install()
+            || !$this->registerHook('displayTop')
+            || !$this->registerHook('AdminStatsModules')
+        ) {
 			return false;
+        }
 
 		return Db::getInstance()->execute(
 			'CREATE TABLE `'._DB_PREFIX_.'pagenotfound` (
@@ -178,7 +177,7 @@ class PagesNotFound extends Module
 		return $this->html;
 	}
 
-	public function hookTop($params)
+	public function hookDisplayTop($params)
 	{
 		if (strstr($_SERVER['REQUEST_URI'], '404.php') && isset($_SERVER['REDIRECT_URL']))
 			$_SERVER['REQUEST_URI'] = $_SERVER['REDIRECT_URL'];

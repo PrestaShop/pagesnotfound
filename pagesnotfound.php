@@ -147,12 +147,12 @@ class PagesNotFound extends Module
             <div class="table__wrapper">
             <table class="table">
                	<thead>
-					<tr>
-					    <th scope="row"></th>
+                    <tr>
+                        <th scope="row"></th>
                         <th scope="col"><span class="title_box active">' . $title_page . '</span></th>
                         <th scope="col"><span class="title_box active">' . $title_referer . '</span></th>
                         <th scope="col"><span class="title_box active">' . $title_counter . '</span></th>
-					</tr>
+                    </tr>
                 </thead>
                 <tbody>';
             foreach ($pages as $ru => $hrs) {

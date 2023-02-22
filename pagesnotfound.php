@@ -103,7 +103,7 @@ class PagesNotFound extends Module
 
     public function hookDisplayAdminStatsModules()
     {
-	$this->context->controller->addCSS($this->_path . 'views/stacking_responsive.css');
+	$this->context->controller->addCSS($this->_path . 'views/css/stacking_responsive.css');
 	    
         if (Tools::isSubmit('submitTruncatePNF')) {
             Db::getInstance()->execute('TRUNCATE `' . _DB_PREFIX_ . 'pagenotfound`');
@@ -144,33 +144,33 @@ class PagesNotFound extends Module
             $title_counter = $this->trans('Counter', [], 'Modules.Pagesnotfound.Admin');
 
             $this->html .= '
-                    <div class="table__wrapper">
-			<table class="table">
-				<thead>
+            <div class="table__wrapper">
+            <table class="table">
+               	<thead>
 					<tr>
-					        <th scope="row"></th>
-						<th scope="col"><span class="title_box active">' . $title_page . '</span></th>
-						<th scope="col"><span class="title_box active">' . $title_referer . '</span></th>
-						<th scope="col"><span class="title_box active">' . $title_counter . '</span></th>
+					    <th scope="row"></th>
+                        <th scope="col"><span class="title_box active">' . $title_page . '</span></th>
+                        <th scope="col"><span class="title_box active">' . $title_referer . '</span></th>
+                        <th scope="col"><span class="title_box active">' . $title_counter . '</span></th>
 					</tr>
-				</thead>
-				<tbody>';
+                </thead>
+                <tbody>';
             foreach ($pages as $ru => $hrs) {
                 foreach ($hrs as $hr => $counter) {
                     if ($hr != 'nb') {
                         $this->html .= '
-						<tr>
-						        <th scope="row"></th>
-							<td data-header="' . $title_page . '"><a href="' . $ru . '-admin404">' . wordwrap($ru, 30, '<br />', true) . '</a></td>
-							<td data-header="' . $title_referer . '"><a href="' . Tools::getProtocol() . $hr . '">' . wordwrap($hr, 40, '<br />', true) . '</a></td>
-							<td data-header="' . $title_counter . '">' . $counter . '</td>
-						</tr>';
+                        <tr>
+                            <th scope="row"></th>
+                            <td data-header="' . $title_page . '"><a href="' . $ru . '-admin404">' . wordwrap($ru, 30, '<br />', true) . '</a></td>
+                            <td data-header="' . $title_referer . '"><a href="' . Tools::getProtocol() . $hr . '">' . wordwrap($hr, 40, '<br />', true) . '</a></td>
+                            <td data-header="' . $title_counter . '">' . $counter . '</td>
+                        </tr>';
                     }
                 }
             }
             $this->html .= '
-				</tbody>
-			</table>
+            	</tbody>
+            </table>
 		    </div>';
         } else {
             $this->html .= '<div class="alert alert-warning"> ' . $this->trans('No "page not found" issue registered for now.', [], 'Modules.Pagesnotfound.Admin') . '</div>';

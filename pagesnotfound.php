@@ -171,7 +171,7 @@ class PagesNotFound extends Module
             $this->html .= '
             	</tbody>
             </table>
-		    </div>';
+            </div>';
         } else {
             $this->html .= '<div class="alert alert-warning"> ' . $this->trans('No "page not found" issue registered for now.', [], 'Modules.Pagesnotfound.Admin') . '</div>';
         }

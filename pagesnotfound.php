@@ -163,7 +163,7 @@ class PagesNotFound extends Module
                             <th scope="row"></th>
                             <td data-header="' . $title_page . '"><a href="' . $ru . '-admin404">' . wordwrap($ru, 30, '<br />', true) . '</a></td>
                             <td data-header="' . $title_referer . '"><a href="' . Tools::getProtocol() . $hr . '">' . wordwrap($hr, 40, '<br />', true) . '</a></td>
-                            <td data-header="' . $title_counter . '">' . $counter . '</td>
+                            <td data-header="' . $title_counter . '"><span>' . $counter . '</span></td>
                         </tr>';
                     }
                 }

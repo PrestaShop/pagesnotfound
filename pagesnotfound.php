@@ -149,9 +149,9 @@ class PagesNotFound extends Module
                	<thead>
                     <tr>
                         <th scope="row"></th>
-                        <th scope="col"><span class="title_box active">' . $title_page . '</span></th>
-                        <th scope="col"><span class="title_box active">' . $title_referer . '</span></th>
-                        <th scope="col"><span class="title_box active">' . $title_counter . '</span></th>
+                        <th scope="col"><span class="title_box active">' . $titlePage . '</span></th>
+                        <th scope="col"><span class="title_box active">' . $titleReferer . '</span></th>
+                        <th scope="col"><span class="title_box active">' . $titleCounter . '</span></th>
                     </tr>
                 </thead>
                 <tbody>';

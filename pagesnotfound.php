@@ -139,9 +139,9 @@ class PagesNotFound extends Module
 
         $pages = $this->getPages();
         if (count($pages)) {
-            $title_page = $this->trans('Page', [], 'Modules.Pagesnotfound.Admin');
-            $title_referer = $this->trans('Referrer', [], 'Modules.Pagesnotfound.Admin');
-            $title_counter = $this->trans('Counter', [], 'Modules.Pagesnotfound.Admin');
+            $titlePage = $this->trans('Page', [], 'Modules.Pagesnotfound.Admin');
+            $titleReferer = $this->trans('Referrer', [], 'Modules.Pagesnotfound.Admin');
+            $titleCounter = $this->trans('Counter', [], 'Modules.Pagesnotfound.Admin');
 
             $this->html .= '
             <div class="table__wrapper">

@@ -144,7 +144,7 @@ class PagesNotFound extends Module
             $titleCounter = $this->trans('Counter', [], 'Modules.Pagesnotfound.Admin');
 
             $this->html .= '
-            <div class="table__wrapper">
+            <div class="stacking__wrapper">
             <table class="table">
                	<thead>
                     <tr>

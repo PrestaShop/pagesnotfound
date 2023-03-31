@@ -104,7 +104,7 @@ class PagesNotFound extends Module
     public function hookDisplayAdminStatsModules()
     {
         $this->context->controller->addCSS($this->_path . 'views/css/stacking_responsive.css');
-	    
+    
         if (Tools::isSubmit('submitTruncatePNF')) {
             Db::getInstance()->execute('TRUNCATE `' . _DB_PREFIX_ . 'pagenotfound`');
             $this->html .= '<div class="alert alert-warning"> ' . $this->trans('The "pages not found" cache has been emptied.', [], 'Modules.Pagesnotfound.Admin') . '</div>';

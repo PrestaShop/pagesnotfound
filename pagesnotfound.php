@@ -103,6 +103,8 @@ class PagesNotFound extends Module
 
     public function hookDisplayAdminStatsModules()
     {
+        $this->context->controller->addCSS($this->_path . 'views/css/stacking_responsive.css');
+
         if (Tools::isSubmit('submitTruncatePNF')) {
             Db::getInstance()->execute('TRUNCATE `' . _DB_PREFIX_ . 'pagenotfound`');
             $this->html .= '<div class="alert alert-warning"> ' . $this->trans('The "pages not found" cache has been emptied.', [], 'Modules.Pagesnotfound.Admin') . '</div>';
@@ -137,31 +139,39 @@ class PagesNotFound extends Module
 
         $pages = $this->getPages();
         if (count($pages)) {
+            $titlePage = $this->trans('Page', [], 'Modules.Pagesnotfound.Admin');
+            $titleReferer = $this->trans('Referrer', [], 'Modules.Pagesnotfound.Admin');
+            $titleCounter = $this->trans('Counter', [], 'Modules.Pagesnotfound.Admin');
+
             $this->html .= '
-			<table class="table">
-				<thead>
-					<tr>
-						<th><span class="title_box active">' . $this->trans('Page', [], 'Modules.Pagesnotfound.Admin') . '</span></th>
-						<th><span class="title_box active">' . $this->trans('Referrer', [], 'Modules.Pagesnotfound.Admin') . '</span></th>
-						<th><span class="title_box active">' . $this->trans('Counter', [], 'Modules.Pagesnotfound.Admin') . '</span></th>
-					</tr>
-				</thead>
-				<tbody>';
+            <div class="stacking__wrapper">
+            <table class="table">
+               	<thead>
+                    <tr>
+                        <th scope="row"></th>
+                        <th scope="col"><span class="title_box active">' . $titlePage . '</span></th>
+                        <th scope="col"><span class="title_box active">' . $titleReferer . '</span></th>
+                        <th scope="col"><span class="title_box active">' . $titleCounter . '</span></th>
+                    </tr>
+                </thead>
+                <tbody>';
             foreach ($pages as $ru => $hrs) {
                 foreach ($hrs as $hr => $counter) {
                     if ($hr != 'nb') {
                         $this->html .= '
-						<tr>
-							<td><a href="' . $ru . '-admin404">' . wordwrap($ru, 30, '<br />', true) . '</a></td>
-							<td><a href="' . Tools::getProtocol() . $hr . '">' . wordwrap($hr, 40, '<br />', true) . '</a></td>
-							<td>' . $counter . '</td>
-						</tr>';
+                        <tr>
+                            <th scope="row"></th>
+                            <td data-header="' . $titlePage . '"><a href="' . $ru . '-admin404">' . wordwrap($ru, 30, '<br />', true) . '</a></td>
+                            <td data-header="' . $titleReferer . '"><a href="' . Tools::getProtocol() . $hr . '">' . wordwrap($hr, 40, '<br />', true) . '</a></td>
+                            <td data-header="' . $titleCounter . '"><span>' . $counter . '</span></td>
+                        </tr>';
                     }
                 }
             }
             $this->html .= '
-				</tbody>
-			</table>';
+            	</tbody>
+            </table>
+            </div>';
         } else {
             $this->html .= '<div class="alert alert-warning"> ' . $this->trans('No "page not found" issue registered for now.', [], 'Modules.Pagesnotfound.Admin') . '</div>';
         }
@@ -196,9 +206,9 @@ class PagesNotFound extends Module
             if (empty($http_referer) || Validate::isAbsoluteUrl($http_referer)) {
                 Db::getInstance()->execute(
                     '
-										INSERT INTO `' . _DB_PREFIX_ . 'pagenotfound` (`request_uri`, `http_referer`, `date_add`, `id_shop`, `id_shop_group`)
-					VALUES (\'' . pSQL($request_uri) . '\', \'' . pSQL($http_referer) . '\', NOW(), ' . (int) $this->context->shop->id . ', ' . (int) $this->context->shop->id_shop_group . ')
-				'
+		    INSERT INTO `' . _DB_PREFIX_ . 'pagenotfound` (`request_uri`, `http_referer`, `date_add`, `id_shop`, `id_shop_group`)
+		    VALUES (\'' . pSQL($request_uri) . '\', \'' . pSQL($http_referer) . '\', NOW(), ' . (int) $this->context->shop->id . ', ' . (int) $this->context->shop->id_shop_group . ')
+		    '
                 );
             }
         }

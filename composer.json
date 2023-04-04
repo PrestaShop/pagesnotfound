@@ -1,25 +1,26 @@
 {
-  "name": "prestashop/pagesnotfound",
-  "description": "PrestaShop module pagesnotfound",
-  "homepage": "https://github.com/PrestaShop/pagesnotfound",
-  "license": "AFL-3.0",
-  "authors": [
-    {
-      "name": "PrestaShop SA",
-      "email": "contact@prestashop.com"
-    }
-  ],
-  "require": {
-    "php": ">=5.6.0"
-  },
-  "require-dev": {
-    "prestashop/php-dev-tools": "^4.3"
-  },
-  "config": {
-    "preferred-install": "dist",
-    "classmap-authoritative": true,
-    "optimize-autoloader": true,
-    "prepend-autoloader": false
-  },
-  "type": "prestashop-module"
+    "name": "prestashop/pagesnotfound",
+    "description": "PrestaShop module pagesnotfound",
+    "homepage": "https://github.com/PrestaShop/pagesnotfound",
+    "license": "AFL-3.0",
+    "authors": [
+        {
+            "name": "PrestaShop SA",
+            "email": "contact@prestashop.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "require-dev": {
+        "prestashop/php-dev-tools": "^4.3"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "classmap-authoritative": true,
+        "optimize-autoloader": true,
+        "prepend-autoloader": false
+    },
+    "type": "prestashop-module",
+    "author": "PrestaShop"
 }

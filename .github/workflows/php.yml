@@ -38,7 +38,7 @@ jobs:
           php-version: '7.4'
 
       - name: Checkout
-        uses: actions/checkout@v2.0.0
+        uses: actions/checkout@v3.0.0
 
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -66,7 +66,7 @@ jobs:
           php-version: '7.4'
 
       - name: Checkout
-        uses: actions/checkout@v2.0.0
+        uses: actions/checkout@v3.0.0
 
       # Add vendor folder in cache to make next builds faster
       - name: Cache vendor folder

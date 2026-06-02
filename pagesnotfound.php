@@ -200,7 +200,7 @@ class PagesNotFound extends Module
                 Db::getInstance()->execute(
                     '
 		    INSERT INTO `' . _DB_PREFIX_ . 'pagenotfound` (`request_uri`, `http_referer`, `date_add`, `id_shop`, `id_shop_group`)
-		    VALUES (\'' . pSQL($request_uri) . '\', \'' . pSQL($http_referer) . '\', NOW(), ' . (int) $this->context->shop->id . ', ' . (int) $this->context->shop->id_shop_group . ')
+		    VALUES (\'' . pSQL($request_uri) . '\', \'' . pSQL($http_referer) . '\', \'' . date('Y-m-d H:i:s') . '\', ' . (int) $this->context->shop->id . ', ' . (int) $this->context->shop->id_shop_group . ')
 		    '
                 );
             }

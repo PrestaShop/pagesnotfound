@@ -3,3 +3,5 @@ includes:
 
 parameters:
   ignoreErrors:
+    - '#Offset .* on array\{http_referer: .*\} in isset\(\) always exists and is not nullable\.#'
+    - '#Offset .* does not exist on array\{http_referer: .*\}\.#'

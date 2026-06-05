@@ -75,19 +75,20 @@ class PagesNotFound extends Module
 				WHERE date_add BETWEEN ' . ModuleGraph::getDateBetween()
             . Shop::addSqlRestriction() .
             'GROUP BY http_referer, request_uri';
+        /** @var array<int, array{http_referer: string, request_uri: string, nb: int|string}> $result */
         $result = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->executeS($sql);
 
         $pages = [];
         foreach ($result as $row) {
-            $row['http_referer'] = parse_url($row['http_referer'], PHP_URL_HOST) . parse_url($row['http_referer'], PHP_URL_PATH);
-            if (!isset($row['http_referer']) || empty($row['http_referer'])) {
-                $row['http_referer'] = '--';
+            $httpReferer = parse_url($row['http_referer'], PHP_URL_HOST) . parse_url($row['http_referer'], PHP_URL_PATH);
+            if (empty($httpReferer)) {
+                $httpReferer = '--';
             }
             if (!isset($pages[$row['request_uri']])) {
                 $pages[$row['request_uri']] = ['nb' => 0];
             }
-            $pages[$row['request_uri']][$row['http_referer']] = $row['nb'];
-            $pages[$row['request_uri']]['nb'] += $row['nb'];
+            $pages[$row['request_uri']][$httpReferer] = (int) $row['nb'];
+            $pages[$row['request_uri']]['nb'] += (int) $row['nb'];
         }
         uasort($pages, 'pnfSort');
 

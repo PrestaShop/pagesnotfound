@@ -29,7 +29,7 @@ class PagesNotFound extends Module
     {
         $this->name = 'pagesnotfound';
         $this->tab = 'administration';
-        $this->version = '3.0.0';
+        $this->version = '4.0.0';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
 
@@ -37,7 +37,7 @@ class PagesNotFound extends Module
 
         $this->displayName = $this->trans('Pages not found', [], 'Modules.Pagesnotfound.Admin');
         $this->description = $this->trans('Enrich your stats, display the pages requested by your visitors that could not be found.', [], 'Modules.Pagesnotfound.Admin');
-        $this->ps_versions_compliancy = ['min' => '1.7.7', 'max' => _PS_VERSION_];
+        $this->ps_versions_compliancy = ['min' => '8.2.0', 'max' => _PS_VERSION_];
     }
 
     public function install()
@@ -75,19 +75,20 @@ class PagesNotFound extends Module
 				WHERE date_add BETWEEN ' . ModuleGraph::getDateBetween()
             . Shop::addSqlRestriction() .
             'GROUP BY http_referer, request_uri';
+        /** @var array<int, array{http_referer: string, request_uri: string, nb: int|string}> $result */
         $result = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->executeS($sql);
 
         $pages = [];
         foreach ($result as $row) {
-            $row['http_referer'] = parse_url($row['http_referer'], PHP_URL_HOST) . parse_url($row['http_referer'], PHP_URL_PATH);
-            if (!isset($row['http_referer']) || empty($row['http_referer'])) {
-                $row['http_referer'] = '--';
+            $httpReferer = parse_url($row['http_referer'], PHP_URL_HOST) . parse_url($row['http_referer'], PHP_URL_PATH);
+            if (empty($httpReferer)) {
+                $httpReferer = '--';
             }
             if (!isset($pages[$row['request_uri']])) {
                 $pages[$row['request_uri']] = ['nb' => 0];
             }
-            $pages[$row['request_uri']][$row['http_referer']] = $row['nb'];
-            $pages[$row['request_uri']]['nb'] += $row['nb'];
+            $pages[$row['request_uri']][$httpReferer] = (int) $row['nb'];
+            $pages[$row['request_uri']]['nb'] += (int) $row['nb'];
         }
         uasort($pages, 'pnfSort');
 

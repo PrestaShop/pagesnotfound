@@ -29,7 +29,7 @@ class PagesNotFound extends Module
     {
         $this->name = 'pagesnotfound';
         $this->tab = 'administration';
-        $this->version = '3.0.0';
+        $this->version = '4.0.0';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
 

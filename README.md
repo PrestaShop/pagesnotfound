@@ -6,7 +6,7 @@ Enrich your stats, display the pages requested by your visitors that could not b
 
 ## Compatibility
 
-PrestaShop: `1.7.7.0` or later
+PrestaShop: `8.2.0` or later
 
 ## Reporting issues
 

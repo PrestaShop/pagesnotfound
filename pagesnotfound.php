@@ -68,17 +68,62 @@ class PagesNotFound extends Module
         return parent::uninstall() && Db::getInstance()->execute('DROP TABLE `' . _DB_PREFIX_ . 'pagenotfound`');
     }
 
-    private function getPages()
+    /**
+     * Number of distinct requested pages in the selected period, used to size the pagination.
+     */
+    private function countPages(): int
     {
+        return (int) Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->getValue(
+            'SELECT COUNT(DISTINCT request_uri)
+				FROM `' . _DB_PREFIX_ . 'pagenotfound`
+				WHERE date_add BETWEEN ' . ModuleGraph::getDateBetween()
+            . Shop::addSqlRestriction()
+        );
+    }
+
+    /**
+     * One page of requested URLs with their referrers. The URLs are selected first so that a page always
+     * holds whole entries: grouping by referrer and cutting that with a LIMIT would split the referrers
+     * of a single URL across two pages.
+     *
+     * @return array<string, array<string, int>>
+     */
+    private function getPages(int $offset = 0, int $limit = 0)
+    {
+        $requestUris = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->executeS(
+            'SELECT request_uri, COUNT(*) as nb
+				FROM `' . _DB_PREFIX_ . 'pagenotfound`
+				WHERE date_add BETWEEN ' . ModuleGraph::getDateBetween()
+            . Shop::addSqlRestriction() . '
+				GROUP BY request_uri
+				ORDER BY nb DESC'
+            . ($limit > 0 ? ' LIMIT ' . (int) $offset . ', ' . (int) $limit : '')
+        );
+
+        if (empty($requestUris)) {
+            return [];
+        }
+
+        $escapedUris = [];
+        foreach ($requestUris as $row) {
+            $escapedUris[] = '\'' . pSQL($row['request_uri']) . '\'';
+        }
+
         $sql = 'SELECT http_referer, request_uri, COUNT(*) as nb
 				FROM `' . _DB_PREFIX_ . 'pagenotfound`
 				WHERE date_add BETWEEN ' . ModuleGraph::getDateBetween()
-            . Shop::addSqlRestriction() .
-            'GROUP BY http_referer, request_uri';
+            . Shop::addSqlRestriction() . '
+				AND request_uri IN (' . implode(', ', $escapedUris) . ')
+				GROUP BY http_referer, request_uri';
         /** @var array<int, array{http_referer: string, request_uri: string, nb: int|string}> $result */
         $result = Db::getInstance((bool) _PS_USE_SQL_SLAVE_)->executeS($sql);
 
         $pages = [];
+        // Seed in the order the URLs were selected, so the "most requested first" order survives.
+        foreach ($requestUris as $row) {
+            $pages[$row['request_uri']] = ['nb' => 0];
+        }
+
         foreach ($result as $row) {
             $httpReferer = parse_url($row['http_referer'], PHP_URL_HOST) . parse_url($row['http_referer'], PHP_URL_PATH);
             if (empty($httpReferer)) {
@@ -90,7 +135,6 @@ class PagesNotFound extends Module
             $pages[$row['request_uri']][$httpReferer] = (int) $row['nb'];
             $pages[$row['request_uri']]['nb'] += (int) $row['nb'];
         }
-        uasort($pages, 'pnfSort');
 
         return $pages;
     }
@@ -131,7 +175,12 @@ class PagesNotFound extends Module
             $this->html .= '<div class="alert alert-warning">' . $this->trans('You must use a .htaccess file to redirect 404 errors to the "404.php" page.', [], 'Modules.Pagesnotfound.Admin') . '</div>';
         }
 
-        $pages = $this->getPages();
+        $pagesPerPage = 50;
+        $totalPages = $this->countPages();
+        $lastPage = max(1, (int) ceil($totalPages / $pagesPerPage));
+        $currentPage = min($lastPage, max(1, (int) Tools::getValue('pnf_page', 1)));
+
+        $pages = $this->getPages(($currentPage - 1) * $pagesPerPage, $pagesPerPage);
         if (count($pages)) {
             $titlePage = $this->trans('Page', [], 'Modules.Pagesnotfound.Admin');
             $titleReferer = $this->trans('Referrer', [], 'Modules.Pagesnotfound.Admin');
@@ -166,6 +215,21 @@ class PagesNotFound extends Module
             	</tbody>
             </table>
             </div>';
+
+            if ($lastPage > 1) {
+                $baseLink = $this->context->link->getAdminLink('AdminStats') . '&module=' . $this->name . '&pnf_page=';
+                $this->html .= '<div class="row"><div class="col-lg-12"><ul class="pagination">';
+                if ($currentPage > 1) {
+                    $this->html .= '<li><a href="' . Tools::safeOutput($baseLink . ($currentPage - 1)) . '">&laquo;</a></li>';
+                }
+                $this->html .= '<li class="disabled"><span>'
+                    . sprintf($this->trans('Page %1$s / %2$s', [], 'Modules.Pagesnotfound.Admin'), $currentPage, $lastPage)
+                    . '</span></li>';
+                if ($currentPage < $lastPage) {
+                    $this->html .= '<li><a href="' . Tools::safeOutput($baseLink . ($currentPage + 1)) . '">&raquo;</a></li>';
+                }
+                $this->html .= '</ul></div></div>';
+            }
         } else {
             $this->html .= '<div class="alert alert-warning"> ' . $this->trans('No "page not found" issue registered for now.', [], 'Modules.Pagesnotfound.Admin') . '</div>';
         }
@@ -224,11 +288,3 @@ class PagesNotFound extends Module
     }
 }
 
-function pnfSort($a, $b)
-{
-    if ($a['nb'] == $b['nb']) {
-        return 0;
-    }
-
-    return ($a['nb'] > $b['nb']) ? -1 : 1;
-}
